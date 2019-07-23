@@ -1,0 +1,3 @@
+[submodule "gtd"]
+	path = gtd
+	url = git@github.com:semgilo/gtd.git
