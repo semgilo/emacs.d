@@ -129,6 +129,7 @@
 (require 'init-folding)
 (require 'init-dash)
 
+(require 'init-blog)
 ;;(require 'init-twitter)
 ;; (require 'init-mu)
 (require 'init-ledger)
