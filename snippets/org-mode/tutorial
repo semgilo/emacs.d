@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: tutorial
+# key: tutorial
+# --
+* 环境
+$1
+* 过程
+$2
+* 问题
+$3

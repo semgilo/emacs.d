@@ -1,0 +1,6 @@
+# name: for ... in ... : ...
+# key: fori
+# group : control structure
+# --
+for $1 in xrange($2, $3):
+    print $4

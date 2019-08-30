@@ -74,6 +74,7 @@
 (require 'init-windows)
 (require 'init-sessions)
 (require 'init-mmm)
+(require 'init-yasnippet) ;;
 
 (require 'init-editing-utils)
 (require 'init-whitespace)
