@@ -3,6 +3,6 @@
 # key: cm
 # group: object oriented
 # --
-@classmethod
-def ${1:meth}(cls, $2):
+
+def ${1:meth}(self, $2):
     $0

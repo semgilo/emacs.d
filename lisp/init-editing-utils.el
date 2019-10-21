@@ -34,7 +34,8 @@
  truncate-partial-width-windows nil
  make-backup-files nil
  auto-save-default nil
- create-lockfiles nil)
+ create-lockfiles nil
+ tab-width 4)
 
 
 (add-hook 'after-init-hook 'global-auto-revert-mode)
