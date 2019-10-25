@@ -160,13 +160,57 @@ typical word processor."
 
 
 ;;; Refiling
+(defun semgilo/org-refile (file headline &optional arg)
+  (let ((pos (save-excursion
+               (find-file file)
+               (org-find-exact-headline-in-buffer headline))))
+    (org-refile nil nil (list headline file nil pos))))
+
+(defun semgilo/refile-to-calender-actions ()
+  "Move headline to calender actions"
+  (interactive)
+  (semgilo/org-refile org-gtd-calender-file "Actions")
+  (kill-buffer "*Org Agenda(g)*")
+  (org-agenda () "g")
+  )
+
+(defun semgilo/refile-to-calender-projects ()
+  "Move headline to calender projects"
+  (interactive)
+  (semgilo/org-refile org-gtd-calender-file "Projects")
+  (kill-buffer "*Org Agenda(g)*")
+  (org-agenda () "g")
+  )
+
+(defun semgilo/refile-to-history-actions ()
+  "Move headline to history actions"
+  (interactive)
+  (semgilo/org-refile org-gtd-history-file "Actions")
+  (kill-buffer "*Org Agenda(g)*")
+  (org-agenda () "g")
+  )
+
+(defun semgilo/refile-to-history-projects ()
+  "Move headline to history projects"
+  (interactive)
+  (semgilo/org-refile org-gtd-history-file "Projects")
+  (kill-buffer "*Org Agenda(g)*")
+  (org-agenda () "g")
+  )
 
 
-;; (defun semgilo/org-refile-to-calender-if-todo ()
-;;   "When todo keyword from todo to PROJECT/NEXT, refile outline to calender."
-;;   (when (string= org-last-state "TODO")
-;;     (if ))
-;;   )
+(defun semgilo/handle-outline-state-to-next ()
+  "When todo keyword from todo to PROJECT/NEXT, refile outline to calender."
+  (when (string= org-state "NEXT")
+    (semgilo/refile-to-calender-actions))
+  (when (string= org-state "PROJECT")
+    (semgilo/refile-to-calender-projects))
+  (when (or (string= org-state "DONE") (string= org-state "CANCEL"))
+    (semgilo/refile-to-history-actions))
+  )
+
+
+(add-hook 'org-after-todo-state-change-hook 'semgilo/handle-outline-state-to-next)
 
 (setq org-refile-use-cache nil)
 
