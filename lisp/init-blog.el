@@ -3,6 +3,7 @@
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 
+(defconst blog-root "~/Documents/git/www.lanhuzi.com1/blog")
 
 ;; Populates only the EXPORT_FILE_NAME property in the inserted headline.
 (with-eval-after-load 'org-capture
@@ -17,11 +18,11 @@ See `org-capture-templates' for more information."
                    ":PROPERTIES:"
                    ,(concat ":EXPORT_FILE_NAME: " fname)
                    ":END:"
-                   "%?\n")          ;Place the cursor here finally
+                   "%?\n")              ;Place the cursor here finally
                  "\n")))
 
   (add-to-list 'org-capture-templates
-               '("h"                ;`org-capture' binding + h
+               '("h"                    ;`org-capture' binding + h
                  "Hugo post"
                  entry
                  ;; It is assumed that below file is present in `org-directory'
@@ -30,9 +31,16 @@ See `org-capture-templates' for more information."
                  (file+olp "~/Documents/git/gtd/all-posts.org" "Blog Ideas")
                  (function org-hugo-new-subtree-post-capture-template))))
 
-(defun write-blog ()
-  (interactive)
-  (hexo "~/Documents/Github/www.lanhuzi.com/"))
+
+(defun semgilo/hugo-new-post (name)
+  (interactive "sInput post name")
+  (setq fullpath
+        (concat
+         blog-root
+         "/content-org/"
+         name
+         ".org"))
+  (find-file fullpath))
 
 (defun semgilo/insert-org-img-link (path)
   (if (equal (file-name-extension (buffer-file-name)) "org")
@@ -73,6 +81,8 @@ See `org-capture-templates' for more information."
     (semgilo/insert-org-img-link blog-relative-path))
 
   (insert "\n"))
+
+
 
 (defun semgilo/record-screencapture (filename)
   "Take a screenshot into a time stamped unique-named file in the
