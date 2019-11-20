@@ -34,40 +34,47 @@ See `org-capture-templates' for more information."
   (interactive)
   (hexo "~/Documents/Github/www.lanhuzi.com/"))
 
-
-(defun semgilo/insert-org-img-link (prefix imagename)
+(defun semgilo/insert-org-img-link (path)
   (if (equal (file-name-extension (buffer-file-name)) "org")
-      (insert (format "[[%s][%s%s]]" imagename prefix imagename))
-    (insert (format "![%s](%s%s)" imagename prefix imagename))))
+      (insert (format "[[%s]]" path))))
 
-(defun semgilo/capture-screenshot (basename)
+(defun semgilo/capture-screenshot (filename)
   "Take a screenshot into a time stamped unique-named file in the
   same directory as the org-buffer/markdown-buffer and insert a link to this file."
   (interactive "sScreenshot name: ")
-  (if (equal basename "")
-      (setq basename (format-time-string "%Y%m%d_%H%M%S")))
-  (setq fullpath
+  (if (equal filename "")
+      (setq filename (format-time-string "%Y%m%d_%H%M%S")))
+
+  (setq cur-org-file-name-base (file-name-base (buffer-file-name)))
+  (setq output-path
         (concat (file-name-directory (buffer-file-name))
-                "../images/posts/"
-                (file-name-base (buffer-file-name))
-                "_"
-                basename))
-  (setq relativepath
-        (concat (file-name-base (buffer-file-name))
-                "_"
-                basename
+                "/../static/images/"
+                cur-org-file-name-base
+                "/"
+                filename
                 ".png"))
 
-  (if (file-exists-p (file-name-directory fullpath))
-      (progn
-        (call-process "screencapture" nil nil nil "-s" (concat fullpath ".png"))
-        (semgilo/insert-org-img-link "https://www.lanhuzi.com/img/" relativepath))
-    (progn
-      (call-process "screencapture" nil nil nil "-s" (concat basename ".png"))
-      (semgilo/insert-org-img-link "./" (concat basename ".png"))))
+  (setq blog-relative-path
+        (concat "/images/"
+                cur-org-file-name-base
+                "/"
+                filename
+                ".png"))
+  (message output-path)
+  (setq output-dir (file-name-directory output-path))
+
+  (unless (file-directory-p output-dir)
+    (make-directory output-dir t))
+
+  
+  (progn
+    (call-process "screencapture" nil nil nil "-s" output-path)
+    (call-process "open" nil nil nil output-path)
+    (semgilo/insert-org-img-link blog-relative-path))
+
   (insert "\n"))
 
-(defun semgilo/record-screencapture (basename)
+(defun semgilo/record-screencapture (filename)
   "Take a screenshot into a time stamped unique-named file in the
   same directory as the org-buffer/markdown-buffer and insert a link to this file."
   (interactive "sScreenshot name: ")
