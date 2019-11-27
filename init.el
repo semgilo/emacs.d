@@ -72,7 +72,7 @@
 (require 'init-hippie-expand)
 (require 'init-company)
 (require 'init-windows)
-(require 'init-sessions)
+;; (require 'init-sessions)
 (require 'init-mmm)
 (require 'init-yasnippet) ;;
 
@@ -179,8 +179,12 @@
 ;; Allow users to provide an optional "init-local" containing personal settings
 ;;----------------------------------------------------------------------------
 (require 'init-local nil t)
-
-
+(toggle-frame-maximized)
+(split-window-horizontally)
+(default-text-scale-decrease)
+(default-text-scale-decrease)
+(org-agenda () "g")
+(window-swap-states)
 
 (provide 'init)
 
