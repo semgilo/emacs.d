@@ -15,6 +15,7 @@
 
 ;; (require-package 'pip-requirements)
 (require-package 'elpy)
+(require-package 'ein)
 (elpy-enable)
 
 (defun setup-my-python-env ()
@@ -29,10 +30,23 @@
 
 (after-load 'python
   (add-hook 'python-mode-hook 'setup-my-python-env)
+  (setq python-shell-interpreter "jupyter"
+        python-shell-interpreter-args "console --simple-prompt"
+        python-shell-prompt-detect-failure-warning nil)
+  (add-to-list 'python-shell-completion-native-disabled-interpreters
+               "jupyter")
   (when (maybe-require-package 'flycheck)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode)))
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
+  )
 
+(defun python-send-buffer-with-my-args (args)
+  (interactive "sPython arguments: ")
+  (let ((source-buffer (current-buffer)))
+    (with-temp-buffer
+      (insert "import sys; sys.argv'''" args "'''.split()\n")
+      (insert-buffer-substring source-buffer)
+      (elpy-shell-send-region-or-buffer))))
 
 (require-package 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)

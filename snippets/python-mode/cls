@@ -3,7 +3,10 @@
 # key: cls
 # group: object oriented
 # --
-class ${1:classname}:
-    """docstring for $1"""
-    def __init__(self, ${2:...}):
+class ${1:classname}(${2:object}):
+    """
+    docstring for $1
+    super $2
+    """
+    def __init__(self${3:}):
         super($1, self).__init__()

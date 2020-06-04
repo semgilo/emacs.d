@@ -53,3 +53,5 @@ site-lisp/package/
 /transient
 .DS_Store
 *.#*
+elpy/
+request/
