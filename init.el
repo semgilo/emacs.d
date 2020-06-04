@@ -68,7 +68,6 @@
 (require 'init-recentf)
 (require 'init-smex)
 (require 'init-ivy)
-;;(require 'init-helm)
 (require 'init-hippie-expand)
 (require 'init-company)
 (require 'init-windows)
@@ -87,7 +86,7 @@
 (require 'init-projectile)
 
 (require 'init-compile)
-;;(require 'init-crontab)
+(require 'init-crontab)
 (require 'init-textile)
 (require 'init-markdown)
 (require 'init-csv)
@@ -112,7 +111,7 @@
 (require 'init-yaml)
 (require 'init-docker)
 (require 'init-terraform)
-;;(require 'init-nix)
+(require 'init-nix)
 (maybe-require-package 'nginx-mode)
 
 (require 'init-paredit)
@@ -136,15 +135,16 @@
 (require 'init-ledger)
 ;; Extra packages which don't require any configuration
 
+(require-package 'sudo-edit)
 (require-package 'gnuplot)
 (require-package 'lua-mode)
 (require-package 'htmlize)
-(require-package 'dsvn)
 (when *is-a-mac*
   (require-package 'osx-location))
 (unless (eq system-type 'windows-nt)
   (maybe-require-package 'daemons))
 (maybe-require-package 'dotenv-mode)
+(maybe-require-package 'shfmt)
 
 (when (maybe-require-package 'uptimes)
   (setq-default uptimes-keep-count 200)
@@ -152,6 +152,8 @@
 
 (when (fboundp 'global-eldoc-mode)
   (add-hook 'after-init-hook 'global-eldoc-mode))
+
+(require 'init-direnv)
 
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient

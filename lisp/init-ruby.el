@@ -18,7 +18,7 @@
 (add-hook 'ruby-mode-hook 'subword-mode)
 
 (after-load 'page-break-lines
-  (push 'ruby-mode page-break-lines-modes))
+  (add-to-list 'page-break-lines-modes 'ruby-mode))
 
 (require-package 'rspec-mode)
 
@@ -52,7 +52,7 @@
     (add-hook 'ruby-mode-hook 'robe-mode))
   (after-load 'robe
     (after-load 'company
-      (push 'company-robe company-backends))))
+      (add-to-list 'company-backends 'company-robe))))
 
 
 
@@ -60,9 +60,6 @@
 (require-package 'yari)
 (defalias 'ri 'yari)
 
-
-
-(require-package 'goto-gem)
 
 
 (require-package 'bundler)
@@ -106,8 +103,6 @@
 ;;----------------------------------------------------------------------------
 ;; Ruby - my convention for heredocs containing SQL
 ;;----------------------------------------------------------------------------
-
-;; Needs to run after rinari to avoid clobbering font-lock-keywords?
 
 ;; (require-package 'mmm-mode)
 ;; (eval-after-load 'mmm-mode

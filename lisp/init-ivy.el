@@ -19,18 +19,19 @@
       (define-key ivy-minibuffer-map (kbd k) #'ivy-immediate-done))
 
     (define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
+    (define-key ivy-minibuffer-map (kbd "<down>") #'ivy-next-line-or-history)
 
     (define-key ivy-occur-mode-map (kbd "C-c C-q") #'ivy-wgrep-change-to-wgrep-mode)
 
     (when (maybe-require-package 'diminish)
       (diminish 'ivy-mode)))
-
-  (defun sanityinc/enable-ivy-flx-matching ()
-    "Make `ivy' matching work more like IDO."
-    (interactive)
-    (require-package 'flx)
-    (setq-default ivy-re-builders-alist
-                  '((t . ivy--regex-fuzzy)))))
+  (when (maybe-require-package 'ivy-rich)
+    (setq ivy-virtual-abbreviate 'abbreviate
+          ivy-rich-switch-buffer-align-virtual-buffer nil
+          ivy-rich-path-style 'abbrev)
+    (after-load 'ivy
+      (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+    (add-hook 'ivy-mode-hook (lambda () (ivy-rich-mode ivy-mode)))))
 
 (when (maybe-require-package 'counsel)
   (setq-default counsel-mode-override-describe-bindings t)
